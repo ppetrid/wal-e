@@ -308,7 +308,8 @@ class StorageLayout(object):
     def key_last_modified(self, key):
         if hasattr(key, 'last_modified'):
             return key.last_modified
-        return key.properties.last_modified
+	# Azure returns the day first, skip it
+        return key.properties.last_modified[5:]
 
 
 def get_backup_info(layout, **kwargs):
