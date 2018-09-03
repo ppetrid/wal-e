@@ -1,3 +1,4 @@
+import datetime
 import gevent
 import re
 
@@ -129,7 +130,10 @@ class _BackupList(object):
 
             assert len(all_backups) > 0
 
-            all_backups.sort(key=lambda bi: bi.last_modified)
+            all_backups.sort(
+                key=lambda bi: datetime.datetime.strptime(
+                    bi.last_modified, '%d %b %Y %H:%M:%S %Z')
+            )
             yield all_backups[-1]
         else:
             raise exception.UserException(
